@@ -1,6 +1,6 @@
 // Filename - LoginForm.tsx
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 // Define the type for the props passed
 // to the LoginForm component
 interface LoginFormProps {
-    onSubmit: (
+    readonly onSubmit: (
         username: string,
         password: string
     ) => void;
@@ -25,7 +25,7 @@ export default function LoginForm(props: LoginFormProps) {
 
     // Define a function to handle form submission
     const handleSubmit =
-        (event: React.FormEvent<HTMLFormElement>) => {
+        (event: React.SyntheticEvent<HTMLFormElement>) => {
 
             // Prevent the default form submission behavior
             event.preventDefault();
@@ -39,10 +39,10 @@ export default function LoginForm(props: LoginFormProps) {
         <Box
             component="form"
             onSubmit={handleSubmit}
-            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+            sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
         >
             <TextField
-                sx={{ marginBottom: '1rem' }}
+                sx={{marginBottom: '1rem'}}
                 label="Username"
                 variant="outlined"
                 value={username}
@@ -52,7 +52,7 @@ export default function LoginForm(props: LoginFormProps) {
                 onChange={(event) => setUsername(event.target.value)}
             />
             <TextField
-                sx={{ marginBottom: '1rem' }}
+                sx={{marginBottom: '1rem'}}
                 label="Password"
                 type="password"
                 variant="outlined"
@@ -62,7 +62,7 @@ export default function LoginForm(props: LoginFormProps) {
                 onChange={(event) => setPassword(event.target.value)}
             />
             <Button
-                sx={{ marginTop: '1rem' }}
+                sx={{marginTop: '1rem'}}
                 variant="contained"
                 color="primary"
                 type="submit"
