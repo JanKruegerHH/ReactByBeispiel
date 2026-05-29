@@ -46,7 +46,6 @@ export default function LoginForm(props: LoginFormProps) {
                 label="Username"
                 variant="outlined"
                 value={username}
-
                 // Update the value of the username state
                 // variable when the input field changes
                 onChange={(event) => setUsername(event.target.value)}
