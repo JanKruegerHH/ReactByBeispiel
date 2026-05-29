@@ -3,6 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 import LoginForm from './components/LoginForm';
 import ClickCounter from "./components/ClickCounter";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import NavigationIcon from '@mui/icons-material/Navigation';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 // Define a function to handle the
 // submission of the LoginForm
@@ -30,6 +35,22 @@ function App() {
                 <p/>
                 ClickCounter
                 <ClickCounter/>
+            </div>
+
+            <div className="App">
+                <Fab color="primary" aria-label="add">
+                    <AddIcon/>
+                </Fab>
+                <Fab color="secondary" aria-label="edit">
+                    <EditIcon/>
+                </Fab>
+                <Fab variant="extended">
+                    <NavigationIcon sx={{mr: 1}}/>
+                    Navigate
+                </Fab>
+                <Fab disabled aria-label="like">
+                    <FavoriteIcon/>
+                </Fab>
             </div>
 
             <div className="App">
