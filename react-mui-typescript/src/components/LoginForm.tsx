@@ -61,9 +61,8 @@ export default function LoginForm(props: LoginFormProps) {
                 onChange={(event) => setPassword(event.target.value)}
             />
             <Button
-                sx={{marginTop: '1rem'}}
+                sx={{ marginTop: '1rem', backgroundColor: 'red', '&:hover': { backgroundColor: 'darkred' } }}
                 variant="contained"
-                color="primary"
                 type="submit"
             >
                 Login

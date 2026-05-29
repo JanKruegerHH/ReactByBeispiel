@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import LoginForm from './components/LoginForm';
+import ClickCounter from "./components/ClickCounter";
 
 // Define a function to handle the
 // submission of the LoginForm
@@ -24,6 +25,12 @@ function App() {
             </h1>
             {/* Render the LoginForm component */}
             <LoginForm onSubmit={handleLogin}/>
+
+            <div className="App">
+                <p/>
+                ClickCounter
+                <ClickCounter/>
+            </div>
 
             <div className="App">
                 <img src={logo} className="App-logo" alt="logo"/>
