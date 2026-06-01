@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Square from './Square';
 
 const Board: React.FC = () => {
-    const [squares, setSquares] = useState<(string | null)[]>(Array(9).fill(null));
+    const [squares, setSquares] = useState<(string | null)[]>(new Array(9).fill(null));
     const [isXNext, setIsXNext] = useState(true);
 
     const handleClick = (index: number) => {
@@ -20,7 +20,7 @@ const Board: React.FC = () => {
     };
 
     const handleRestart = () => {
-        setSquares(Array(9).fill(null));
+        setSquares(new Array(9).fill(null));
         setIsXNext(true);
     };
 
@@ -31,7 +31,7 @@ const Board: React.FC = () => {
         <div className="flex flex-col items-center">
             <div className="status mb-4 text-2xl">{status}</div>
             <div className="grid grid-cols-3 gap-1 mb-4">
-                {Array(9).fill(null).map((_, index) => renderSquare(index))}
+                {new Array(9).fill(null).map((_, index) => renderSquare(index))}
             </div>
             <button
                 className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
@@ -54,8 +54,8 @@ function calculateWinner(squares: (string | null)[]) {
         [0, 4, 8],
         [2, 4, 6],
     ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
+    for (const element of lines) {
+        const [a, b, c] = element;
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
             return squares[a];
         }
