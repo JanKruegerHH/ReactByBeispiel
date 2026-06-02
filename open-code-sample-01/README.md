@@ -4,8 +4,13 @@ Setup of the React + TypeScript application:
 npx create-react-app open-code-sample-01 --template typescript
 ```
 
+Init opencode:
+```sh
+opencode
+init
+```
 
-
+openode can't convert a png-file into a running app. So I created a description of the png and then it was created by opencode.
 
 # Getting Started with Create React App
 
