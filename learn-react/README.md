@@ -5,6 +5,8 @@ See https://react.dev/learn/describing-the-ui
 npx create-react-app learn-react --template typescript
 ```
 
+## Add a Router
+see https://blog.logrocket.com/react-router-v7-guide/ and https://reactrouter.com/
 
 # Getting Started with Create React App
 
