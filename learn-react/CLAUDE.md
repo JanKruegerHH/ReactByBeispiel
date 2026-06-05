@@ -24,18 +24,24 @@ npm test -- App.test.tsx
 - **React 19** with **TypeScript 4.9** (strict mode), compiled to ES5, `react-jsx` runtime
 - **Create React App** (react-scripts 5) — no custom webpack/Babel config
 - **react-router 7** — note: import from `react-router` (not `react-router-dom`) in this version
+- **MUI 9** (`@mui/material` + `@mui/icons-material`, styled via `@emotion`) — used in the `mui/` samples only
 - **Testing Library** (`@testing-library/react` + `@testing-library/jest-dom`) for component tests
 - No state management library — intentionally minimal
 
 ## Architecture
 
 - `src/index.tsx` mounts `<App />`; `src/App.tsx` is the root and owns all routing.
-- Routing lives entirely in `App.tsx`: a `<BrowserRouter>` wraps a `<nav>` of `<NavLink>`s
-  (active links styled red via the `isActive` render-prop) and a `<Routes>` block.
-- Routes can nest. `/posts` renders `PostsHeader` (a layout that renders `<Outlet />`), and its
-  `index` route renders `PostList` into that outlet. `path="*"` renders `NoMatch` (404).
-- One component per file under `src/components/`, each a `React.FC` arrow function with a
-  default export, returning a `<section>`. Styling is inline `style={{...}}` objects, not CSS classes.
+- `App.tsx` renders a `<BrowserRouter>` wrapping a `<nav>` of `<NavLink>`s (active links styled
+  red via the `isActive` render-prop) plus an inner `Routes` component.
+- Routes are declared as a **config array** via `useRoutes([...])`, not JSX `<Route>` elements.
+  Entries use either `Component:` or `element:`. Routes nest: `/posts` → `PostsHeader` (a layout
+  rendering `<Outlet />`) with children `index` → `PostList` and `:slug` → `Post`. `path: "*"` → `NoMatch`.
+- `Post` reads `:slug` via `useParams()` and looks it up in shared data.
+- Shared blog data lives in `src/data/posts.ts` (the `BlogPosts` map + `Posts` type), imported by
+  both `PostList` and `Post` — keep it defined once there rather than per-component.
+- One component per file under `src/components/`, each a `React.FC` arrow function with a default
+  export. Tutorial components return a `<section>` and use inline `style={{...}}` objects (no CSS
+  classes); MUI experiments live under `src/components/mui/`.
 
 ## Gotchas
 
