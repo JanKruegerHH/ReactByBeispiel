@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
+import {BrowserRouter, NavLink, useRoutes} from 'react-router';
 import Gallery from "./components/Gallery";
 import About from "./components/About";
 import NoMatch from "./components/NoMatch";
 import PostsHeader from "./components/PostsHeader";
 import PostList from "./components/PostList";
 import Post from "./components/Post";
-import {BrowserRouter, NavLink, useRoutes} from 'react-router';
+import MuiSample01 from "./components/mui/MuiSample01";
 
 const App: React.FC = () => {
 
@@ -22,6 +23,7 @@ const App: React.FC = () => {
                 ],
             },
             {path: "/about", Component: About},
+            {path: "/muisample01", Component: MuiSample01},
             {path: "*", element: <NoMatch/>}
         ]);
     }
@@ -46,6 +48,15 @@ const App: React.FC = () => {
                     })}
                 >
                     Posts
+                </NavLink>
+                <NavLink
+                    to='/muisample01'
+                    style={({isActive}) => ({
+                        padding: 5,
+                        ...(isActive ? {color: "red"} : {}),
+                    })}
+                >
+                    MUI Sample 01
                 </NavLink>
                 <NavLink
                     to='/about'
