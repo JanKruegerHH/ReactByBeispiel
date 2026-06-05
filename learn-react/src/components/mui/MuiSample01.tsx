@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 
 const MuiSample01: React.FC = () => {
 
-    const CartBadge = styled(Badge)(({theme}) => ({
+    const CartBadge = styled(Badge)(() => ({
         [`& .${badgeClasses.badge}`]: {
             top: -12,
             right: -6,
