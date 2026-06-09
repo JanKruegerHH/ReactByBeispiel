@@ -1,5 +1,5 @@
 import CssBaseline from '@mui/material/CssBaseline';
-import { createHashRouter, RouterProvider } from 'react-router';
+import {createHashRouter, RouterProvider} from 'react-router';
 import DashboardLayout from './components/DashboardLayout';
 import EmployeeList from './components/EmployeeList';
 import EmployeeShow from './components/EmployeeShow';
@@ -9,12 +9,6 @@ import NotificationsProvider from './hooks/useNotifications/NotificationsProvide
 import DialogsProvider from './hooks/useDialogs/DialogsProvider';
 import AppTheme from './theme/AppTheme';
 import {sidebarCustomizations} from './theme/customizations/sidebar';
-//import {
-//    dataGridCustomizations,
-//    datePickersCustomizations,
-//    sidebarCustomizations,
-//    formInputCustomizations,
-//} from './theme/customizations';
 import {dataGridCustomizations} from "./theme/customizations/dataGrid";
 import {formInputCustomizations} from "./theme/customizations/formInput";
 
@@ -54,13 +48,13 @@ const themeComponents = {
     ...formInputCustomizations,
 };
 
-export default function CrudDashboard(props: { disableCustomTheme?: boolean }) {
+export default function CrudDashboard(props: Readonly<{ disableCustomTheme?: boolean }>) {
     return (
         <AppTheme {...props} themeComponents={themeComponents}>
-            <CssBaseline enableColorScheme />
+            <CssBaseline enableColorScheme/>
             <NotificationsProvider>
                 <DialogsProvider>
-                    <RouterProvider router={router} />
+                    <RouterProvider router={router}/>
                 </DialogsProvider>
             </NotificationsProvider>
         </AppTheme>
