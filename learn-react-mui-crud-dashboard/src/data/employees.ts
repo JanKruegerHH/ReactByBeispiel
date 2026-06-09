@@ -36,6 +36,14 @@ const INITIAL_EMPLOYEES_STORE: Employee[] = [
     role: 'Development',
     isFullTime: true,
   },
+  {
+    id: 4,
+    name: 'Max Mustermann',
+    age: 29,
+    joinDate: '2025-06-16T00:00:00.000Z',
+    role: 'Development',
+    isFullTime: true,
+  },
 ];
 
 export function getEmployeesStore(): Employee[] {
