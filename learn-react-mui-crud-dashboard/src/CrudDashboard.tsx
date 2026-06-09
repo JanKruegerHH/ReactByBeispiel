@@ -11,6 +11,7 @@ import AppTheme from './theme/AppTheme';
 import {sidebarCustomizations} from './theme/customizations/sidebar';
 import {dataGridCustomizations} from "./theme/customizations/dataGrid";
 import {formInputCustomizations} from "./theme/customizations/formInput";
+import About from "./components/About";
 
 const router = createHashRouter([
     {
@@ -31,6 +32,10 @@ const router = createHashRouter([
             {
                 path: '/employees/:employeeId/edit',
                 Component: EmployeeEdit,
+            },
+            {
+                path: '/about',
+                Component: About,
             },
             // Fallback route for the example routes in dashboard sidebar items
             {
