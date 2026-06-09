@@ -7,6 +7,8 @@ import List from '@mui/material/List';
 import Toolbar from '@mui/material/Toolbar';
 import type {} from '@mui/material/themeCssVarsAugmentation';
 import PersonIcon from '@mui/icons-material/Person';
+import InfoIcon from '@mui/icons-material/Info';
+import AreaChartIcon from '@mui/icons-material/AreaChart';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
@@ -160,9 +162,15 @@ export default function DashboardSidebar({
                             selected={!!matchPath('/employees/*', pathname) || pathname === '/'}
                         />
                         <DashboardSidebarPageItem
+                            id="area-chart"
+                            title="Area Chart"
+                            icon={<AreaChartIcon/>}
+                            href="/area-chart"
+                        />
+                        <DashboardSidebarPageItem
                             id="about"
                             title="About"
-                            icon={<PersonIcon/>}
+                            icon={<InfoIcon/>}
                             href="/about"
                         />
                         <DashboardSidebarDividerItem/>

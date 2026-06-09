@@ -12,6 +12,7 @@ import {sidebarCustomizations} from './theme/customizations/sidebar';
 import {dataGridCustomizations} from "./theme/customizations/dataGrid";
 import {formInputCustomizations} from "./theme/customizations/formInput";
 import About from "./components/About";
+import OpsAreaChart from "./components/OpsAreaChart";
 
 const router = createHashRouter([
     {
@@ -32,6 +33,10 @@ const router = createHashRouter([
             {
                 path: '/employees/:employeeId/edit',
                 Component: EmployeeEdit,
+            },
+            {
+                path: '/area-chart',
+                Component: OpsAreaChart,
             },
             {
                 path: '/about',

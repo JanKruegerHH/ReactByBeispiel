@@ -30,7 +30,7 @@ No separate lint command — ESLint runs (via the `react-app` config) during `np
 - **React 19** + **TypeScript 4.9** (strict, target ES2020, `react-jsx` runtime, `isolatedModules`,
   `baseUrl: src` so `src`-relative absolute imports work)
 - **Create React App** (react-scripts 5) wrapped by **CRACO** for a webpack override (see Build note)
-- **MUI 9** (`@mui/material` + `@mui/icons-material` + `@mui/x-data-grid`), styled via `@emotion`
+- **MUI 9** (`@mui/material` + `@mui/icons-material` + `@mui/x-data-grid` + `@mui/x-charts`), styled via `@emotion`
 - **react-router 7** — import from `react-router` (not `react-router-dom`)
 - No backend; no state-management library
 
