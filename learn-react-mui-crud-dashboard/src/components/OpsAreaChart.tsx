@@ -29,6 +29,7 @@ export default function OpsAreaChart() {
                     label: 'ZRH',
                     dataKey: 'zrh',
                     color: '#1565c0',
+                    showMark: true,
                     curve: 'linear',
                 },
                 {
@@ -36,6 +37,7 @@ export default function OpsAreaChart() {
                     label: 'VIE',
                     dataKey: 'vie',
                     color: '#1b5e20',
+                    showMark: true,
                     curve: 'linear',
                 },
                 {
@@ -43,6 +45,7 @@ export default function OpsAreaChart() {
                     label: 'BRU',
                     dataKey: 'bru',
                     color: '#e65100',
+                    showMark: true,
                     curve: 'linear',
                 },
                 {
@@ -50,6 +53,7 @@ export default function OpsAreaChart() {
                     label: 'Target',
                     dataKey: 'target',
                     color: '#FFFF00',
+                    showMark: true,
                     curve: 'step',
                 },]}
             //width={800}
