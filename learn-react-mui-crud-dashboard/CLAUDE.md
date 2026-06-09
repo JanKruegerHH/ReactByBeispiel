@@ -15,8 +15,10 @@ management UI) into a Create React App (TypeScript) setup. The upstream source i
 npm start        # Dev server at http://localhost:3000 (hot reload)
 npm test         # Jest + React Testing Library in watch mode
 npm run build    # Production build into /build
-npm test -- App.test.tsx   # run a single test file
+npm test -- <pattern>   # run only test files matching <pattern>
 ```
+
+There are currently **no test files** in `src/` — `npm test` finds nothing to run until you add some.
 
 Scripts run through **CRACO** (`craco start/build/test`), not raw `react-scripts` — see the build
 note below. `npm run eject` still calls `react-scripts eject`.
@@ -25,7 +27,8 @@ No separate lint command — ESLint runs (via the `react-app` config) during `np
 
 ## Stack
 
-- **React 19** + **TypeScript 4.9** (strict, target ES5, `react-jsx` runtime)
+- **React 19** + **TypeScript 4.9** (strict, target ES2020, `react-jsx` runtime, `isolatedModules`,
+  `baseUrl: src` so `src`-relative absolute imports work)
 - **Create React App** (react-scripts 5) wrapped by **CRACO** for a webpack override (see Build note)
 - **MUI 9** (`@mui/material` + `@mui/icons-material` + `@mui/x-data-grid`), styled via `@emotion`
 - **react-router 7** — import from `react-router` (not `react-router-dom`)
@@ -33,8 +36,8 @@ No separate lint command — ESLint runs (via the `react-app` config) during `np
 
 ## Architecture
 
-- **Real entry point is `src/CrudDashboard.tsx`, not `src/App.tsx`.** `src/index.tsx` mounts
-  `<CrudDashboard />`; `App.tsx`/`App.test.tsx` are leftover CRA boilerplate and unused at runtime.
+- **Entry point is `src/CrudDashboard.tsx`.** `src/index.tsx` mounts `<CrudDashboard />`. (CRA's
+  `App.tsx`/`App.test.tsx` boilerplate has been deleted — there is no `App.tsx`.)
 - `CrudDashboard.tsx` wraps the app in `AppTheme` → `CssBaseline` → `NotificationsProvider` →
   `DialogsProvider` → `RouterProvider`. Routing uses **`createHashRouter`** with a route-config
   array (not JSX `<Route>`s): a single `DashboardLayout` parent renders `<Outlet/>` and its
@@ -44,9 +47,8 @@ No separate lint command — ESLint runs (via the `react-app` config) during `np
   `getMany`/`getOne`/`createOne`/`updateOne`/`deleteOne`/`validate` functions are `async` to emulate
   a server; `getMany` does filtering/sorting/pagination against the x-data-grid models. Validation
   follows the [Standard Schema](https://standardschema.dev/) issue shape.
-  - **Caveat:** `src/employees.ts` and `src/data/employees.ts` are duplicates. All components import
-    the **root `src/employees.ts`** (`from '../employees'`); `src/data/employees.ts` is dead.
-    Edit the one in use, and delete or sync the other rather than letting them drift.
+    The single canonical file is **`src/data/employees.ts`**; all components import it as
+    `from '../data/employees'`. (An earlier duplicate `src/employees.ts` has been removed.)
 - **Forms:** `EmployeeForm.tsx` is shared by `EmployeeCreate` and `EmployeeEdit`, driven by a
   `{ values, errors }` `formState` plus `onFieldChange`/`onSubmit` callbacks.
 - **Cross-cutting UI hooks** live under `src/hooks/` as context + provider + hook trios:
@@ -77,8 +79,8 @@ valid module — keep that line until the contents are restored.
 ## Porting status / gotchas
 
 This is a partial port — several upstream pieces are intentionally commented out, not missing:
-- `DashboardSidebar` is disabled in `DashboardLayout.tsx`; only the header renders. The `*`
-  fallback route exists so the sidebar's example nav links don't 404.
+- `DashboardSidebar` renders in `DashboardLayout.tsx`. Its example nav links don't all map to real
+  routes, so the `*` fallback route (→ `EmployeeList`) exists so they don't 404.
 - Date-picker support (`@mui/x-date-pickers`, `dayjs`) is commented out in `EmployeeForm.tsx` and
   `CrudDashboard.tsx` — `joinDate` is a plain string field. Add those deps before re-enabling.
 - When restoring a stubbed feature, copy the corresponding file from the upstream MUI template path
