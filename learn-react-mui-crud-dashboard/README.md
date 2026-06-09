@@ -9,13 +9,18 @@ npm install @mui/x-data-grid
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
 npm install react-router
-npm install react-transition-group
-npm install @types/react-transition-group
 ```
 
 See Sample-Code from Mui-Sample:
 /Users/U558343/Sources/ReactMuiSources/material-ui/docs/data/material/getting-started/templates/crud-dashboard
 
+## Cleaning up the project
+```sh
+rm -rf node_modules 
+rm -f package-lock.json 
+npm cache clean --force 
+npm install
+```
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
