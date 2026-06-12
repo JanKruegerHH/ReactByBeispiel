@@ -13,6 +13,7 @@ import {dataGridCustomizations} from "./theme/customizations/dataGrid";
 import {formInputCustomizations} from "./theme/customizations/formInput";
 import About from "./components/About";
 import OpsAreaChart from "./components/OpsAreaChart";
+import Optimizer from "./components/Optimizer";
 
 const router = createHashRouter([
     {
@@ -33,6 +34,10 @@ const router = createHashRouter([
             {
                 path: '/employees/:employeeId/edit',
                 Component: EmployeeEdit,
+            },
+            {
+                path: '/optimizer',
+                Component: Optimizer,
             },
             {
                 path: '/area-chart',

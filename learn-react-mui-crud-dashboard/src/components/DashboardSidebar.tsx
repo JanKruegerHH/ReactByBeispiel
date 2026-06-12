@@ -10,6 +10,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
 import AreaChartIcon from '@mui/icons-material/AreaChart';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import TuneIcon from '@mui/icons-material/Tune';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
 import {matchPath, useLocation} from 'react-router';
@@ -155,17 +156,23 @@ export default function DashboardSidebar({
                     >
                         <DashboardSidebarHeaderItem>Main items</DashboardSidebarHeaderItem>
                         <DashboardSidebarPageItem
-                            id="employees"
-                            title="Employees"
-                            icon={<PersonIcon/>}
-                            href="/employees"
-                            selected={!!matchPath('/employees/*', pathname) || pathname === '/'}
+                            id="optimizer"
+                            title="Optimizer"
+                            icon={<TuneIcon/>}
+                            href="/optimizer"
                         />
                         <DashboardSidebarPageItem
                             id="area-chart"
                             title="Area Chart"
                             icon={<AreaChartIcon/>}
                             href="/area-chart"
+                        />
+                        <DashboardSidebarPageItem
+                            id="employees"
+                            title="Employees"
+                            icon={<PersonIcon/>}
+                            href="/employees"
+                            selected={!!matchPath('/employees/*', pathname) || pathname === '/'}
                         />
                         <DashboardSidebarPageItem
                             id="about"
