@@ -33,13 +33,10 @@ export default function DashboardSidebar({
                                              setExpanded,
                                              disableCollapsibleSidebar = false,
                                              container,
-                                         }: DashboardSidebarProps) {
+                                         }: Readonly<DashboardSidebarProps>) {
     const theme = useTheme();
-
     const {pathname} = useLocation();
-
     const [expandedItemIds, setExpandedItemIds] = React.useState<string[]>([]);
-
     const isOverSmViewport = useMediaQuery(theme.breakpoints.up('sm'));
     const isOverMdViewport = useMediaQuery(theme.breakpoints.up('md'));
     const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
@@ -52,7 +49,6 @@ export default function DashboardSidebar({
     const drawerLeavingDuration = shouldReduceDrawerMotion
         ? 0
         : theme.transitions.duration.leavingScreen;
-
     const [isFullyExpanded, setIsFullyExpanded] = React.useState(expanded);
     const [isFullyCollapsed, setIsFullyCollapsed] = React.useState(!expanded);
 
@@ -139,7 +135,7 @@ export default function DashboardSidebar({
                             overflow: 'auto',
                             scrollbarGutter: mini ? 'stable' : 'auto',
                             overflowX: 'hidden',
-                            pt: !mini ? 0 : 2,
+                            pt: mini ? 2 : 0,
                         },
                         hasDrawerTransitions
                             ? getDrawerSxTransitionMixin(isFullyExpanded, 'padding')

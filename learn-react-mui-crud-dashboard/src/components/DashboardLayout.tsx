@@ -6,22 +6,17 @@ import Toolbar from '@mui/material/Toolbar';
 import {Outlet} from 'react-router';
 import DashboardHeader from './DashboardHeader';
 import DashboardSidebar from './DashboardSidebar';
-import SitemarkIcon from './SitemarkIcon';
 
 export default function DashboardLayout() {
     const theme = useTheme();
-
     const [isDesktopNavigationExpanded, setIsDesktopNavigationExpanded] =
         React.useState(true);
     const [isMobileNavigationExpanded, setIsMobileNavigationExpanded] =
         React.useState(false);
-
     const isOverMdViewport = useMediaQuery(theme.breakpoints.up('md'));
-
     const isNavigationExpanded = isOverMdViewport
         ? isDesktopNavigationExpanded
         : isMobileNavigationExpanded;
-
     const setIsNavigationExpanded = React.useCallback(
         (newExpanded: boolean) => {
             if (isOverMdViewport) {
@@ -36,14 +31,12 @@ export default function DashboardLayout() {
             setIsMobileNavigationExpanded,
         ],
     );
-
     const handleToggleHeaderMenu = React.useCallback(
         (isExpanded: boolean) => {
             setIsNavigationExpanded(isExpanded);
         },
         [setIsNavigationExpanded],
     );
-
     const layoutRef = React.useRef<HTMLDivElement>(null);
 
     return (
@@ -58,7 +51,6 @@ export default function DashboardLayout() {
             }}
         >
             <DashboardHeader
-                logo={<SitemarkIcon/>}
                 title=""
                 menuOpen={isNavigationExpanded}
                 onToggleMenu={handleToggleHeaderMenu}

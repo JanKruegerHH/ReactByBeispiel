@@ -22,18 +22,16 @@ const AppBar = styled(MuiAppBar)(({theme}) => ({
 }));
 
 export interface DashboardHeaderProps {
-    logo?: React.ReactNode;
     title?: string;
     menuOpen: boolean;
     onToggleMenu: (open: boolean) => void;
 }
 
 export default function DashboardHeader({
-                                            logo,
                                             title,
                                             menuOpen,
                                             onToggleMenu,
-                                        }: DashboardHeaderProps) {
+                                        }: Readonly<DashboardHeaderProps>) {
     const theme = useTheme();
 
     const handleMenuOpen = React.useCallback(() => {

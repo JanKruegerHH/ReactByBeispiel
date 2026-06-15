@@ -2,6 +2,7 @@ import * as React from 'react';
 import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import Box from "@mui/material/Box";
 import {getProposals, Proposal} from "../data/proposals";
+import PageContainer from "./PageContainer";
 
 const rows: Proposal[] = getProposals()
 
@@ -20,6 +21,7 @@ const columns: GridColDef[] = [
 export default function Optimizer() {
     return (
         <section>
+            <PageContainer title="Optimizer"></PageContainer>
             <Box sx={{flex: 1, height: 300, width: '100%'}}>
                 <div style={{display: 'flex', flexDirection: 'column', padding: '10px'}}>
                     <DataGrid
