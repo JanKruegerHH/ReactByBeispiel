@@ -5,7 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Purpose
 
 A learning project porting MUI's official **CRUD dashboard** template (an employee
-management UI) into a Create React App (TypeScript) setup. The upstream source is at
+management UI) into a Vite + TypeScript setup (originally Create React App; migrated off
+it — see the Build note). The upstream source is at
 `/Users/U558343/Sources/ReactMuiSources/material-ui/docs/data/material/getting-started/templates/crud-dashboard`
 — consult it when wiring up features that are stubbed out here.
 
@@ -16,32 +17,37 @@ DataGrid, an `OpsAreaChart` line/area chart, and an `About` page.
 ## Commands
 
 ```bash
-npm start        # Dev server at http://localhost:3000 (hot reload)
-npm test         # Jest + React Testing Library in watch mode
-npm run build    # Production build into /build
+npm start        # Vite dev server at http://localhost:3000 (HMR); `npm run dev` is the same
+npm run build    # Type-check (vite-plugin-checker) + production build into /build
+npm run preview  # Serve the built /build output locally
+npm test         # Vitest in watch mode (jsdom + RTL)
+npm run test:run # Vitest once, non-watch (CI mode)
+npm run typecheck   # Standalone `tsc --noEmit`
 npm test -- <pattern>   # run only test files matching <pattern>
 ```
 
-There are currently **no test files** in `src/` — `npm test` finds nothing to run until you add some.
+There are currently **no test files** in `src/` — Vitest is configured (`passWithNoTests`) so the
+test scripts pass until you add some (name them `*.test.ts(x)` / `*.spec.ts(x)`).
 
-Scripts run through **CRACO** (`craco start/build/test`), not raw `react-scripts` — see the build
-note below. `npm run eject` still calls `react-scripts eject`.
-
-No separate lint command — ESLint runs (via the `react-app` config) during `npm start`/`build`.
+Scripts run through **Vite** (`vite` / `vite build` / `vitest`). `npm run build` fails on real type
+errors because `vite-plugin-checker` runs `tsc` during the build — but it does **not** lint (CRA's
+ESLint-on-build is gone; add an ESLint 9 flat config if you want linting back).
 
 ## Stack
 
-- **React 19** + **TypeScript 4.9** (strict, target ES2020, `react-jsx` runtime, `isolatedModules`,
-  `baseUrl: src` so `src`-relative absolute imports work)
-- **Create React App** (react-scripts 5) wrapped by **CRACO** for a webpack override (see Build note)
+- **React 19** + **TypeScript 5** (strict, target ES2020, `react-jsx` runtime, `isolatedModules`,
+  `moduleResolution: node`, `baseUrl: src` so `src`-relative absolute imports work)
+- **Vite 8** (`@vitejs/plugin-react`) with `vite-plugin-checker` for in-build type checking; **Vitest**
+  (jsdom) for tests. Config lives in `vite.config.ts` (build + test share one file)
 - **MUI 9** (`@mui/material` + `@mui/icons-material` + `@mui/x-data-grid` + `@mui/x-charts`), styled via `@emotion`
 - **react-router 7** — import from `react-router` (not `react-router-dom`)
 - No backend; no state-management library
 
 ## Architecture
 
-- **Entry point is `src/CrudDashboard.tsx`.** `src/index.tsx` mounts `<CrudDashboard />`. (CRA's
-  `App.tsx`/`App.test.tsx` boilerplate has been deleted — there is no `App.tsx`.)
+- **Entry point is `src/CrudDashboard.tsx`.** `src/index.tsx` mounts `<CrudDashboard />`, and the
+  root `index.html` loads `src/index.tsx` as a module script (Vite convention — `index.html` lives at
+  the project root, not in `public/`; `public/` holds static assets served at `/`). There is no `App.tsx`.
 - `CrudDashboard.tsx` wraps the app in `AppTheme` → `CssBaseline` → `NotificationsProvider` →
   `DialogsProvider` → `RouterProvider`. Routing uses **`createHashRouter`** with a route-config
   array (not JSX `<Route>`s): a single `DashboardLayout` parent renders `<Outlet/>` and its
@@ -68,18 +74,26 @@ No separate lint command — ESLint runs (via the `react-app` config) during `np
   (`ThemeSwitcher` toggles them). Customizations are opted in à la carte in `AppTheme` and
   `CrudDashboard`.
 
-## Build note: CRACO + MUI v9 ESM workaround
+## Build note: Vite migration (was CRA + CRACO)
 
-react-scripts 5 (webpack 5) fails to build MUI v9 out of the box: MUI's ESM (`.mjs`) build imports
-`react-transition-group/...` without a file extension, and webpack enforces `fullySpecified` on ESM
-origins, refusing to auto-append `.js`. Since react-scripts locks its webpack config, the project
-uses **CRACO** (`craco.config.js`) to push a rule setting `resolve.fullySpecified = false` for
-`.m?js`. Don't revert the scripts to `react-scripts` or the build breaks again.
+The project was originally Create React App (react-scripts 5) wrapped in CRACO to work around two
+webpack-5 problems. It has since been **migrated to Vite**, which removes the need for both
+workarounds — do not reintroduce `react-scripts`/CRACO:
+- MUI v9's ESM (`.mjs`) build imports `react-transition-group/...` without a file extension; webpack 5
+  enforced `fullySpecified` and refused to resolve it. Vite serves native ESM and has no such issue.
+- CRA's `ForkTsCheckerWebpackPlugin` was being SIGABRT'd at its default memory limit, silently skipping
+  type checks. Vite's `vite-plugin-checker` (configured in `vite.config.ts`) runs `tsc` in a worker so
+  `npm run build` **fails on real type errors**; `npm run typecheck` runs the same check standalone.
 
-`craco.config.js` also bumps the `ForkTsCheckerWebpackPlugin` `memoryLimit` to 4096 MB — CRA's
-2048 MB default made the type-check worker get SIGABRT'd, silently skipping type checking. With the
-bump the **in-build type checker works**, so `npm run build` fails on real type errors; no separate
-`tsc --noEmit` pass is needed.
+`vite.config.ts` holds the whole toolchain config: the React plugin, the type checker, `resolve.tsconfigPaths`
+(honours `baseUrl: src` natively — no `vite-tsconfig-paths` plugin needed), `build.outDir: 'build'` (kept so
+the existing `.gitignore` `/build` rule applies), the dev server on port 3000, and the Vitest `test` block
+(jsdom env, `src/setupTests.ts` for jest-dom matchers). Ambient module types (CSS imports, Vitest globals)
+come from `src/vite-env.d.ts`.
+
+**TypeScript was bumped 4.9 → 5** during the migration: MUI v9 ships `.d.ts` files using TS-5 syntax
+(`const` type parameters), which TS 4.9 cannot even parse (`skipLibCheck` suppresses semantic, not
+syntax, errors). A real type-check against MUI v9 requires TS 5.
 
 Note: `--isolatedModules` requires every file to be a module. `src/theme/customizations/datePickers.ts`
 is fully commented out (date pickers are stubbed) and carries a trailing `export {}` so it stays a
