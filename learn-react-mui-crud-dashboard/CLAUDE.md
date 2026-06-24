@@ -9,6 +9,10 @@ management UI) into a Create React App (TypeScript) setup. The upstream source i
 `/Users/U558343/Sources/ReactMuiSources/material-ui/docs/data/material/getting-started/templates/crud-dashboard`
 — consult it when wiring up features that are stubbed out here.
 
+Beyond the straight port, the project has grown a few **custom pages** that are NOT in
+the upstream template (an airport/ops domain flavor — ZRH/VIE/BRU/FRA/MUC): an `Optimizer`
+DataGrid, an `OpsAreaChart` line/area chart, and an `About` page.
+
 ## Commands
 
 ```bash
@@ -41,14 +45,19 @@ No separate lint command — ESLint runs (via the `react-app` config) during `np
 - `CrudDashboard.tsx` wraps the app in `AppTheme` → `CssBaseline` → `NotificationsProvider` →
   `DialogsProvider` → `RouterProvider`. Routing uses **`createHashRouter`** with a route-config
   array (not JSX `<Route>`s): a single `DashboardLayout` parent renders `<Outlet/>` and its
-  `/employees`, `/employees/:employeeId`, `/employees/new`, `/employees/:employeeId/edit`, and `*`
-  (fallback → `EmployeeList`) children.
+  children — the employee CRUD routes (`/employees`, `/employees/:employeeId`, `/employees/new`,
+  `/employees/:employeeId/edit`), the custom pages (`/optimizer`, `/area-chart`, `/about`), and the
+  `*` fallback (→ `EmployeeList`).
 - **Data layer is a mock "API" backed by `localStorage`** under key `employees-store`. The
   `getMany`/`getOne`/`createOne`/`updateOne`/`deleteOne`/`validate` functions are `async` to emulate
   a server; `getMany` does filtering/sorting/pagination against the x-data-grid models. Validation
   follows the [Standard Schema](https://standardschema.dev/) issue shape.
     The single canonical file is **`src/data/employees.ts`**; all components import it as
     `from '../data/employees'`. (An earlier duplicate `src/employees.ts` has been removed.)
+  The two custom pages have their own data files that **do not follow this mock-API pattern** —
+  `src/data/proposals.ts` (synchronous `getProposals()` over an in-memory array, feeds the
+  `Optimizer` DataGrid) and `src/data/ops-data.ts` (a static `dataset` of dated airport metrics,
+  feeds `OpsAreaChart`). Neither persists to `localStorage` or is `async`.
 - **Forms:** `EmployeeForm.tsx` is shared by `EmployeeCreate` and `EmployeeEdit`, driven by a
   `{ values, errors }` `formState` plus `onFieldChange`/`onSubmit` callbacks.
 - **Cross-cutting UI hooks** live under `src/hooks/` as context + provider + hook trios:
